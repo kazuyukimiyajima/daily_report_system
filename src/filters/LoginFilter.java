@@ -15,24 +15,12 @@ import javax.servlet.http.HttpSession;
 
 import models.Employee;
 
-
 @WebFilter("/*")
 public class LoginFilter implements Filter {
-
-
     public LoginFilter() {
-
-
     }
-
-
     public void destroy() {
-
-
     }
-
-
-
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String context_path = ((HttpServletRequest)request).getContextPath();
         String servlet_path = ((HttpServletRequest)request).getServletPath();
@@ -65,12 +53,8 @@ public class LoginFilter implements Filter {
                 }
             }
         }
-
         chain.doFilter(request, response);
     }
-
-
-
     public void init(FilterConfig fConfig) throws ServletException {
         // TODO Auto-generated method stub
     }
