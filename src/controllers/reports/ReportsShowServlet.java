@@ -28,10 +28,12 @@ public class ReportsShowServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
+        //該当のIDのレポート１件のみをデータベースから取得 (request.getParameter("id")をIntegerに変換
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
 		em.close();
 
+	    //レポートデータをリクエストスコープにセットしてshow.jspを呼びだす
 		request.setAttribute("report", r);
 		request.setAttribute("_token", request.getSession().getId());
 

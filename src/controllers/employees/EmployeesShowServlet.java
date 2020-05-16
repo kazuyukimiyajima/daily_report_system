@@ -13,31 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 import models.Employee;
 import utils.DBUtil;
 
-/**
- * Servlet implementation class EmployeesShowServlet
- */
+
 @WebServlet("/employees/show")
 public class EmployeesShowServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public EmployeesShowServlet() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
-        Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("id")));
+        //該当のIDの社員１件のみをデータベースから取得　request.getParameter()←クエリパラメータの取得 どのデータもSting型で取得する為
+        Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("id")));//Interger.parseInt() String型の１を整数の１に変える役割
 
         em.close();
 
+        //社員データをリクエストスコープにセットしてshow.jspを呼びだす
         request.setAttribute("employee", e);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/employees/show.jsp");

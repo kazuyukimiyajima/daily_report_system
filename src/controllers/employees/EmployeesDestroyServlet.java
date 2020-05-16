@@ -13,29 +13,26 @@ import javax.servlet.http.HttpServletResponse;
 import models.Employee;
 import utils.DBUtil;
 
-/**
- * Servlet implementation class EmployeesDestroyServlet
- */
+
 @WebServlet("/employees/destroy")
 public class EmployeesDestroyServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public EmployeesDestroyServlet() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //CSRF対策
         String _token = (String)request.getParameter("_token");
         if(_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
 
+            //セッションスコープから社員IDを取得して
+            //該当のIDの社員１件のみをデータベースから取得  removeは使用せずに論理削除
             Employee e = em.find(Employee.class, (Integer)(request.getSession().getAttribute("employee_id")));
             e.setDelete_flag(1);
             e.setUpdated_at(new Timestamp(System.currentTimeMillis()));
@@ -43,9 +40,9 @@ public class EmployeesDestroyServlet extends HttpServlet {
             em.getTransaction().begin();
             em.getTransaction().commit();
             em.close();
-            request.getSession().setAttribute("flush", "削除が完了しました。");
+            request.getSession().setAttribute("flush", "削除が完了しました。");//フラッシュメッセージ
 
-            response.sendRedirect(request.getContextPath() + "/employees/index");
+            response.sendRedirect(request.getContextPath() + "/employees/index"); //インデックスページへリダイレクト
         }
     }
 

@@ -34,7 +34,7 @@ public class ReportsIndexServlet extends HttpServlet {
 	    }catch(Exception e){
 	        page = 1;
 	    }
-	    //最大件数と開始位置を指定してメッセージを取得
+	    //最大件数と開始位置を指定してレポートを取得
 	    List<Report>reports = em.createNamedQuery("getAllReports",Report.class)
 	                            .setFirstResult(15 * (page - 1))
 	                            .setMaxResults(15)
